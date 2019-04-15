@@ -8,7 +8,13 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager layoutManager;
@@ -67,7 +73,7 @@ public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
         firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
         if (loading) {
-            if (totalItemCount > previousTotal) {
+            if (totalItemCount >= previousTotal) {
                 loading = false;
                 previousTotal = totalItemCount;
             }
@@ -78,30 +84,47 @@ public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
             //Do something
             currentPage++;
 
-            Log.i("myTag","make http request, user id = " + currentPage);
+            Log.i("myTag", "make http request, user id = " + currentPage);
             onLoadMore(currentPage);
             loading = true;
         }
     }
 
-    public void onLoadMore(int userId){
-        final int finalUseId = userId;
-        new AsyncTask<Void, Void, Collection<Data>>(){
-            @Override
-            protected Collection<Data> doInBackground(Void...voids){
-                try{
-                    HttpClient httpClient = new HttpClient();
-                    return httpClient.readDataInfo(finalUseId);
-                } catch(IOException | JSONException e){
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-            @Override
-            protected void onPostExecute(Collection<Data> data){
-                adapter.addData(data);
-            }
-        }.execute();
+    public void onLoadMore(int userId) {
+        NetworkService.getInstance()
+                .getJSONPlaceHolderApi()
+                .getPostWithUserID(currentPage)
+                .enqueue(new Callback<List<Post>>() {
+                    @Override
+                    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+                        List<Post> data = response.body();
+                        adapter.addData(data);
+                    }
+                    @Override
+                    public void onFailure(Call<List<Post>> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
     }
+
+//    public void onLoadMore(int userId){
+//        final int finalUseId = userId;
+//        new AsyncTask<Void, Void, List<Data>>(){
+//            @Override
+//            protected List<Data> doInBackground(Void...voids){
+//                try{
+//                    HttpClient httpClient = new HttpClient();
+//                    return httpClient.readDataInfo(finalUseId);
+//                } catch(IOException | JSONException e){
+//                    e.printStackTrace();
+//                    return null;
+//                }
+//            }
+//            @Override
+//            protected void onPostExecute(List<Data> data){
+//                adapter.addData(data);
+//            }
+//        }.execute();
+//    }
 
 }

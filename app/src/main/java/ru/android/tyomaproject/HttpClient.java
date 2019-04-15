@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 
 public class HttpClient {
     private static final String HEADER_AUTHORIZATION = "Authorization";
@@ -21,7 +22,7 @@ public class HttpClient {
         jsonParser = new JSONParser();
     }
 
-    public Collection<Data> readDataInfo(int id) throws IOException, JSONException {
+    public List<Data> readDataInfo(int id) throws IOException, JSONException {
         String requestUrl = "https://jsonplaceholder.typicode.com/posts?userId=";
         URL url = new URL(requestUrl + id);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -36,7 +37,7 @@ public class HttpClient {
             in = connection.getInputStream();
         }
         String response = convertStreamToString(in);
-        Collection<Data> data = jsonParser.getData(response);
+        List<Data> data = jsonParser.getData(response);
         return data;
     }
 

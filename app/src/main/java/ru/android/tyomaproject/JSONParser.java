@@ -5,12 +5,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class JSONParser {
-    public Collection<Data> getData(String response) throws JSONException {
+    public List<Data> getData(String response) throws JSONException {
         JSONArray dataJson = new JSONArray(response);
-        Collection<Data> dataArray = new ArrayList<>();
+        List<Data> dataArray = new ArrayList<>();
         for (int i = 0; i < dataJson.length(); i++) {
             JSONObject jsonItem = dataJson.getJSONObject(i);
             String Title = jsonItem.getString("title");

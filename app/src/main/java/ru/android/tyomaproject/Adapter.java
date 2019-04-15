@@ -1,6 +1,5 @@
 package ru.android.tyomaproject;
 
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,45 +7,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ListViewHolder> {
     private static final String TITLE = "title:\"";
     private static final String BODY = "body:\"";
 
-    private List<Data> DataList;
+    private List<Post> DataList;
 
 
     public class ListViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv_headline;
-        private TextView tv_content;
+        private TextView tvHeadline;
+        private TextView tvContent;
 
         public ListViewHolder(View itemView) {
             super(itemView);
-            tv_content = itemView.findViewById(R.id.tv_content);
-            tv_headline = itemView.findViewById(R.id.tv_headline);
+            tvContent = itemView.findViewById(R.id.tv_content);
+            tvHeadline = itemView.findViewById(R.id.tv_headline);
         }
 
         public void bind(String Title, String Body) {
-            tv_headline.setText(Title);
-            tv_content.setText(Body);
+            tvHeadline.setText(Title);
+            tvContent.setText(Body);
         }
     }
 
-    public Collection<Data> getData(){
+    public List<Post> getData(){
         return DataList;
     }
 
-    public void setData(Collection<Data> list) {
-        DataList = (List<Data>) list;
+    public void setData(List<Post> list) {
+        DataList = (List<Post>) list;
         notifyDataSetChanged();
     }
 
-    public void addData(Collection<Data> list) {
-        for (Data item:list) {
+    public void addData(List<Post> list) {
+        for (Post item:list) {
             DataList.add(item);
         }
         notifyDataSetChanged();
@@ -68,7 +65,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListViewHolder> {
 
     @Override
     public void onBindViewHolder(ListViewHolder listViewHolder, int i) {
-        listViewHolder.bind(DataList.get(i).Title, DataList.get(i).Body);
+        listViewHolder.bind(DataList.get(i).getTitle(), DataList.get(i).getBody());
     }
 
     @Override
