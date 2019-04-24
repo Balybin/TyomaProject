@@ -5,11 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -19,6 +14,7 @@ import retrofit2.Response;
 public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager layoutManager;
     private Adapter adapter;
+    private MyPresenter presenter;
 
     public int getPreviousTotal() {
         return previousTotal;
@@ -59,9 +55,10 @@ public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
 
     private int currentPage = 1;
 
-    public EndlessOnScrollListener(LinearLayoutManager layoutManager, Adapter adapter) {
+    public EndlessOnScrollListener(LinearLayoutManager layoutManager, Adapter adapter, MyPresenter presenter) {
         this.layoutManager = layoutManager;
         this.adapter = adapter;
+        this.presenter = presenter;
     }
 
     @Override
@@ -106,25 +103,5 @@ public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
                     }
                 });
     }
-
-//    public void onLoadMore(int userId){
-//        final int finalUseId = userId;
-//        new AsyncTask<Void, Void, List<Data>>(){
-//            @Override
-//            protected List<Data> doInBackground(Void...voids){
-//                try{
-//                    HttpClient httpClient = new HttpClient();
-//                    return httpClient.readDataInfo(finalUseId);
-//                } catch(IOException | JSONException e){
-//                    e.printStackTrace();
-//                    return null;
-//                }
-//            }
-//            @Override
-//            protected void onPostExecute(List<Data> data){
-//                adapter.addData(data);
-//            }
-//        }.execute();
-//    }
 
 }

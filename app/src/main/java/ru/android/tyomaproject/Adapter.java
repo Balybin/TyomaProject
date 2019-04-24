@@ -10,11 +10,12 @@ import android.widget.TextView;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ListViewHolder> {
-    private static final String TITLE = "title:\"";
-    private static final String BODY = "body:\"";
 
     private List<Post> DataList;
 
+    public void refresh() {
+        notifyDataSetChanged();
+    }
 
     public class ListViewHolder extends RecyclerView.ViewHolder {
 
@@ -33,7 +34,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListViewHolder> {
         }
     }
 
-    public List<Post> getData(){
+    public List<Post> getData() {
         return DataList;
     }
 
@@ -43,8 +44,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ListViewHolder> {
     }
 
     public void addData(List<Post> list) {
-        for (Post item:list) {
-            DataList.add(item);
+        if (DataList == null) {
+            DataList = list;
+        } else {
+            for (Post item : list) {
+                DataList.add(item);
+            }
         }
         notifyDataSetChanged();
     }
