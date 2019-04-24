@@ -29,22 +29,26 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
         if (savedInstanceState == null) {
             presenter.requireMoreData();
+            Log.i("myTag", "onCreate()::presenter.requireMoreData()");
         }
     }
 
     @Override
     public void initializeComponents() {
         Log.i("myTag", "initializeComponents()");
+        model = new MyModel();
+        presenter = new MyPresenter(model, this);
+        model.setPresenter(presenter);
         recyclerView = findViewById(R.id.rv);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         listAdapter = new Adapter();
         recyclerView.setAdapter(listAdapter);
-        eosListener = new EndlessOnScrollListener(layoutManager, listAdapter, presenter);
+        Log.i("myTag", "EndlessOnScrollListener");
+        eosListener = new EndlessOnScrollListener(layoutManager, presenter);
         recyclerView.addOnScrollListener(eosListener);
-        model = new MyModel();
-        presenter = new MyPresenter(model, this);
-        model.setPresenter(presenter);
+
+        Log.i("myTag", "model.setPresenter()");
     }
 
     @Override

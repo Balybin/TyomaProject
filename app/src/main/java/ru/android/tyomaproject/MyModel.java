@@ -1,5 +1,7 @@
 package ru.android.tyomaproject;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class MyModel implements MainContract.Model {
                 presenter.requireErrorDialog();
             }
         });
+        Log.i("myTag", "loading more Data with userId = " + userId);
+
     }
 
     @Override

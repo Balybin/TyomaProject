@@ -13,8 +13,7 @@ import retrofit2.Response;
 
 public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
     private LinearLayoutManager layoutManager;
-    private Adapter adapter;
-    private MyPresenter presenter;
+    public MyPresenter presenter;
 
     public int getPreviousTotal() {
         return previousTotal;
@@ -55,9 +54,8 @@ public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
 
     private int currentPage = 1;
 
-    public EndlessOnScrollListener(LinearLayoutManager layoutManager, Adapter adapter, MyPresenter presenter) {
+    public EndlessOnScrollListener(LinearLayoutManager layoutManager, MyPresenter presenter) {
         this.layoutManager = layoutManager;
-        this.adapter = adapter;
         this.presenter = presenter;
     }
 
@@ -81,27 +79,29 @@ public class EndlessOnScrollListener extends RecyclerView.OnScrollListener {
             //Do something
             currentPage++;
 
-            Log.i("myTag", "make http request, user id = " + currentPage);
-            onLoadMore(currentPage);
+            //Log.i("myTag", "make http request, user id = " + currentPage);
+            //onLoadMore(currentPage);
+            Log.i("myTag", "presenter.requireMoreData()");
+            presenter.requireMoreData();
             loading = true;
         }
     }
 
-    public void onLoadMore(int userId) {
-        NetworkService.getInstance()
-                .getJSONPlaceHolderApi()
-                .getPostWithUserID(currentPage)
-                .enqueue(new Callback<List<Post>>() {
-                    @Override
-                    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
-                        List<Post> data = response.body();
-                        adapter.addData(data);
-                    }
-                    @Override
-                    public void onFailure(Call<List<Post>> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
-    }
+//    public void onLoadMore(int userId) {
+//        NetworkService.getInstance()
+//                .getJSONPlaceHolderApi()
+//                .getPostWithUserID(currentPage)
+//                .enqueue(new Callback<List<Post>>() {
+//                    @Override
+//                    public void onResponse(Call<List<Post>> call, Response<List<Post>> response) {
+//                        List<Post> data = response.body();
+//                        adapter.addData(data);
+//                    }
+//                    @Override
+//                    public void onFailure(Call<List<Post>> call, Throwable t) {
+//                        t.printStackTrace();
+//                    }
+//                });
+//    }
 
 }
