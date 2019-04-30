@@ -8,12 +8,14 @@ public interface MainContract {
     interface View{
         void initializeComponents();
         void showNetworkError();
+        void acceptData(List<Post> postList);
     }
     interface Presenter{
         void saveData(Bundle state, EndlessOnScrollListener eosl);
         void requireMoreData();
         void requireErrorDialog();
         void loadData(Bundle state, EndlessOnScrollListener eosl);
+        void refreshData();
 
     }
     interface Model{

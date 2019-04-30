@@ -2,15 +2,16 @@ package ru.android.tyomaproject;
 
 import android.os.Bundle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyPresenter implements MainContract.Presenter {
+public class MyPresenter implements MainContract.Presenter, Serializable {
     private MyModel model;
-    private MainActivity view;
+    private Fragment1 view;
 
-    public MyPresenter(MyModel model, MainActivity view) {
-        this.model = model;
+    public MyPresenter(Fragment1 view) {
+        this.model = new MyModel(this);
         this.view = view;
     }
 
@@ -45,6 +46,7 @@ public class MyPresenter implements MainContract.Presenter {
         //state.putInt("totalItemCount",eosl.getTotalItemCount());
     }
 
+    @Override
     public void refreshData() {
         view.acceptData(model.getPostList());
     }

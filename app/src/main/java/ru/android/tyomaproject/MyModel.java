@@ -17,9 +17,9 @@ public class MyModel implements MainContract.Model {
 
     private MyPresenter presenter;
 
-//    public MyModel(MyPresenter presenter) {
-//        this.presenter = presenter;
-//    }
+    public MyModel(MyPresenter presenter) {
+        this.presenter = presenter;
+    }
 
     private int userId = 1;
     private List<Post> postList;
